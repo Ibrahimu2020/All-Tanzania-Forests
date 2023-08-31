@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 1313px;
+            height: 877px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/Water_Body_1.js"></script>
+        <script src="data/International_Boundary_2.js"></script>
+        <script src="data/tza_tanzania_forests_3.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-13.110042058607727,26.241247792865803],[0.40726383462602217,46.49627736424685]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_Water_Body_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['LAKES'] !== null ? autolinker.link(feature.properties['LAKES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Water_Body_1_0() {
+            return {
+                pane: 'pane_Water_Body_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(23,160,255,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Water_Body_1');
+        map.getPane('pane_Water_Body_1').style.zIndex = 401;
+        map.getPane('pane_Water_Body_1').style['mix-blend-mode'] = 'normal';
+        var layer_Water_Body_1 = new L.geoJson(json_Water_Body_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Water_Body_1',
+            layerName: 'layer_Water_Body_1',
+            pane: 'pane_Water_Body_1',
+            onEachFeature: pop_Water_Body_1,
+            style: style_Water_Body_1_0,
+        });
+        bounds_group.addLayer(layer_Water_Body_1);
+        map.addLayer(layer_Water_Body_1);
+        function pop_International_Boundary_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">LEFT_FID</th>\
+                        <td>' + (feature.properties['LEFT_FID'] !== null ? autolinker.link(feature.properties['LEFT_FID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">RIGHT_FID</th>\
+                        <td>' + (feature.properties['RIGHT_FID'] !== null ? autolinker.link(feature.properties['RIGHT_FID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_International_Boundary_2_0() {
+            return {
+                pane: 'pane_International_Boundary_2',
+                opacity: 1,
+                color: 'rgba(10,5,3,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_International_Boundary_2');
+        map.getPane('pane_International_Boundary_2').style.zIndex = 402;
+        map.getPane('pane_International_Boundary_2').style['mix-blend-mode'] = 'normal';
+        var layer_International_Boundary_2 = new L.geoJson(json_International_Boundary_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_International_Boundary_2',
+            layerName: 'layer_International_Boundary_2',
+            pane: 'pane_International_Boundary_2',
+            onEachFeature: pop_International_Boundary_2,
+            style: style_International_Boundary_2_0,
+        });
+        bounds_group.addLayer(layer_International_Boundary_2);
+        map.addLayer(layer_International_Boundary_2);
+        function pop_tza_tanzania_forests_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Forest area</th>\
+                        <td>' + (feature.properties['AREA'] !== null ? autolinker.link(feature.properties['AREA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Forest perimeter</th>\
+                        <td>' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">S/N</th>\
+                        <td>' + (feature.properties['SN'] !== null ? autolinker.link(feature.properties['SN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Forest name</th>\
+                        <td>' + (feature.properties['RES_NAME'] !== null ? autolinker.link(feature.properties['RES_NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_tza_tanzania_forests_3_0() {
+            return {
+                pane: 'pane_tza_tanzania_forests_3',
+                opacity: 1,
+                color: 'rgba(23,147,18,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_tza_tanzania_forests_3');
+        map.getPane('pane_tza_tanzania_forests_3').style.zIndex = 403;
+        map.getPane('pane_tza_tanzania_forests_3').style['mix-blend-mode'] = 'normal';
+        var layer_tza_tanzania_forests_3 = new L.geoJson(json_tza_tanzania_forests_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_tza_tanzania_forests_3',
+            layerName: 'layer_tza_tanzania_forests_3',
+            pane: 'pane_tza_tanzania_forests_3',
+            onEachFeature: pop_tza_tanzania_forests_3,
+            style: style_tza_tanzania_forests_3_0,
+        });
+        bounds_group.addLayer(layer_tza_tanzania_forests_3);
+        map.addLayer(layer_tza_tanzania_forests_3);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/tza_tanzania_forests_3.png" /> tza_tanzania_forests': layer_tza_tanzania_forests_3,'<img src="legend/International_Boundary_2.png" /> International_Boundary': layer_International_Boundary_2,'<img src="legend/Water_Body_1.png" /> Water_Body': layer_Water_Body_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_tza_tanzania_forests_3,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'RES_NAME'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        </script>
+    </body>
+</html>
